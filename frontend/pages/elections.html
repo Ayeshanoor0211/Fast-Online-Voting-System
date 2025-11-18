@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elections - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-vote-yea"></i> All Elections</h1>
+            <p>Participate in ongoing elections or view upcoming ones</p>
+        </div>
+
+        <!-- Election Filters -->
+        <div class="election-filters">
+            <button class="filter-btn active" data-filter="all">All Elections</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+            <button class="filter-btn" data-filter="ended">Ended</button>
+        </div>
+
+        <!-- Elections Grid -->
+        <div class="election-grid" id="electionsContainer">
+            <!-- Election cards will be loaded here dynamically -->
+        </div>
+
+        <!-- If no elections -->
+        <div id="noElections" style="display: none; text-align: center; padding: 2rem;">
+            <i class="fas fa-calendar-times" style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;"></i>
+            <h3>No Elections Found</h3>
+            <p>There are no elections matching your criteria at the moment.</p>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Sample election data - in real app, this would come from an API
+        const elections = [
+            {
+                id: 1,
+                title: "Student Union President 2024",
+                description: "Election for the Student Union President. Vote for your candidate!",
+                status: "active",
+                startDate: "2024-11-10",
+                endDate: "2024-11-15",
+                candidateCount: 4,
+                canVote: true,
+                canView: true
+            },
+            {
+                id: 2,
+                title: "Class Representative Election",
+                description: "Elect your class representative for the current semester",
+                status: "active",
+                startDate: "2024-11-12",
+                endDate: "2024-11-20",
+                candidateCount: 3,
+                canVote: true,
+                canView: true
+            },
+            {
+                id: 3,
+                title: "Faculty Club Coordinator",
+                description: "Election for Faculty Club Coordinator position",
+                status: "upcoming",
+                startDate: "2024-12-01",
+                endDate: "2024-12-05",
+                candidateCount: 0,
+                canVote: false,
+                canView: true
+            },
+            {
+                id: 4,
+                title: "Sports Captain Election",
+                description: "Election for Sports Captain 2024-25",
+                status: "ended",
+                startDate: "2024-10-01",
+                endDate: "2024-10-05",
+                candidateCount: 2,
+                canVote: false,
+                canView: true
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadElections('all');
+
+            // Add filter button event listeners
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Load elections with selected filter
+                    loadElections(this.getAttribute('data-filter'));
+                });
+            });
+        });
+
+        function loadElections(filter) {
+            const container = document.getElementById('electionsContainer');
+            const noElections = document.getElementById('noElections');
+            container.innerHTML = '';
+
+            let filteredElections = elections;
+            if (filter !== 'all') {
+                filteredElections = elections.filter(election => election.status === filter);
+            }
+
+            if (filteredElections.length === 0) {
+                noElections.style.display = 'block';
+                return;
+            }
+
+            noElections.style.display = 'none';
+
+            filteredElections.forEach(election => {
+                const electionCard = createElectionCard(election);
+                container.appendChild(electionCard);
+            });
+        }
+
+        function createElectionCard(election) {
+            const card = document.createElement('div');
+            card.className = 'election-card';
+            card.setAttribute('data-election-id', election.id);
+
+            const statusClass = `status-${election.status}`;
+
+            card.innerHTML = `
+                <h3>${election.title}</h3>
+                <span class="election-status ${statusClass}">${election.status}</span>
+                <p>${election.description}</p>
+                <div class="election-meta">
+                    <p><i class="fas fa-calendar"></i> Starts: ${formatDate(election.startDate)}</p>
+                    <p><i class="fas fa-clock"></i> Ends: ${formatDate(election.endDate)}</p>
+                    <p><i class="fas fa-users"></i> Candidates: ${election.candidateCount}</p>
+                </div>
+                <div class="election-actions">
+                    ${election.canVote ? `<button class="btn-primary vote-btn" data-election-id="${election.id}">Vote Now</button>` : ''}
+                    ${election.canView ? `<button class="btn-secondary view-candidates-btn" data-election-id="${election.id}">View Candidates</button>` : ''}
+                </div>
+            `;
+
+            return card;
+        }
+    </script>
+</body>
+</html>

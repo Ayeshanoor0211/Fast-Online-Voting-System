@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Results - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chart-bar"></i> Election Results</h1>
+            <p>Live and historical election results</p>
+        </div>
+
+        <!-- Election Selector -->
+        <div class="election-selector">
+            <label for="electionSelect">Select Election:</label>
+            <select id="electionSelect" onchange="loadResults(this.value)">
+                <option value="">-- Choose an Election --</option>
+                <option value="1">Student Union President 2024</option>
+                <option value="2">Class Representative Election</option>
+                <option value="3">Faculty Club Coordinator</option>
+            </select>
+        </div>
+
+        <!-- Results will be displayed here -->
+        <div id="resultsContainer">
+            <!-- Results content will be loaded here -->
+        </div>
+
+        <!-- If no results -->
+        <div id="noResults" style="display: none; text-align: center; padding: 2rem;">
+            <i class="fas fa-chart-pie" style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;"></i>
+            <h3>No Results Available</h3>
+            <p>Select an election to view results.</p>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Sample results data - in real app, this would come from an API
+        const resultsData = {
+            1: {
+                title: "Student Union President 2024",
+                totalVotes: 324,
+                candidates: [
+                    { name: "Ali Khan", votes: 150, symbol: "Laptop" },
+                    { name: "Sara Ahmed", votes: 120, symbol: "Book" },
+                    { name: "Usman Tariq", votes: 54, symbol: "Star" }
+                ]
+            },
+            2: {
+                title: "Class Representative Election",
+                totalVotes: 200,
+                candidates: [
+                    { name: "Ahmed Raza", votes: 110, symbol: "Pen" },
+                    { name: "Fatima Ali", votes: 90, symbol: "Notebook" }
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // If an election is specified in URL, load it
+            const electionId = getElectionIdFromURL();
+            if (electionId) {
+                document.getElementById('electionSelect').value = electionId;
+                loadResults(electionId);
+            }
+        });
+
+        function loadResults(electionId) {
+            const container = document.getElementById('resultsContainer');
+            const noResults = document.getElementById('noResults');
+
+            if (!electionId) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            const results = resultsData[electionId];
+            if (!results) {
+                container.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            container.innerHTML = createResultsHTML(results);
+            renderChart(results);
+        }
+
+        function createResultsHTML(results) {
+            let html = `
+                <div class="results-header">
+                    <h2>${results.title}</h2>
+                    <div class="results-stats">
+                        <p><strong>Total Votes Cast:</strong> ${results.totalVotes}</p>
+                    </div>
+                </div>
+                <div class="results-content">
+                    <div class="results-chart">
+                        <canvas id="resultsChart"></canvas>
+                    </div>
+                    <div class="results-table">
+                        <h3>Detailed Results</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Candidate</th>
+                                    <th>Symbol</th>
+                                    <th>Votes</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            results.candidates.forEach(candidate => {
+                const percentage = ((candidate.votes / results.totalVotes) * 100).toFixed(1);
+                html += `
+                    <tr>
+                        <td>${candidate.name}</td>
+                        <td>${candidate.symbol}</td>
+                        <td>${candidate.votes}</td>
+                        <td>${percentage}%</td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        function renderChart(results) {
+            const ctx = document.getElementById('resultsChart').getContext('2d');
+            const candidateNames = results.candidates.map(c => c.name);
+            const votes = results.candidates.map(c => c.votes);
+            const backgroundColors = ['#003366', '#007bff', '#28a745', '#ffc107', '#dc3545'];
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: candidateNames,
+                    datasets: [{
+                        data: votes,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Vote Distribution'
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

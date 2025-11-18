@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chalkboard-teacher"></i> Faculty Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, <strong>Prof. Salman</strong></span>
+                <button class="btn-secondary" onclick="location.href='profile.html'">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-vote-yea"></i>
+                <h3>Active Elections</h3>
+                <p>1</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Can View Results</h3>
+                <p>3</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Supervising</h3>
+                <p>2 Elections</p>
+            </div>
+        </div>
+
+        <!-- Faculty can vote in these elections -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-vote-yea"></i> Elections You Can Vote In</h2>
+            <div class="election-grid">
+                <div class="election-card" data-election-id="3">
+                    <h3>Faculty Club Coordinator</h3>
+                    <span class="election-status status-active">Active</span>
+                    <p>Election for Faculty Club Coordinator position</p>
+                    <div class="election-meta">
+                        <p><i class="fas fa-calendar"></i> Ends: Nov 18, 2024</p>
+                        <p><i class="fas fa-users"></i> Candidates: 2</p>
+                    </div>
+                    <div class="election-actions">
+                        <button class="btn-primary vote-btn" data-election-id="3">Vote Now</button>
+                        <button class="btn-secondary view-candidates-btn" data-election-id="3">View Candidates</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Elections you can view results -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-chart-bar"></i> Election Results Access</h2>
+            <div class="election-grid">
+                <div class="election-card">
+                    <h3>Student Union President 2024</h3>
+                    <span class="election-status status-active">Active</span>
+                    <p>View live results of student union election</p>
+                    <div class="election-actions">
+                        <button class="btn-primary" onclick="location.href='results.html?election=1'">
+                            <i class="fas fa-chart-bar"></i> View Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

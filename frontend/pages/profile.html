@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-user"></i> My Profile</h1>
+            <button class="btn-secondary" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+
+        <div class="profile-container">
+            <!-- Profile Summary -->
+            <div class="profile-summary">
+                <div class="profile-image">
+                    <img src="../assets/default-avatar.jpg" alt="Profile Picture">
+                    <button class="btn-secondary" onclick="showPopup('Profile picture update coming soon', 'info')">
+                        <i class="fas fa-camera"></i> Change Photo
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <h2 id="profileName">Ali Khan</h2>
+                    <p id="profileRole">Student</p>
+                    <p id="profileCampus">FAST Islamabad</p>
+                    <p id="profileEmail">ali@fast.edu.pk</p>
+                </div>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <div class="detail-section">
+                    <h3><i class="fas fa-id-card"></i> Personal Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Full Name</label>
+                            <p id="detailName">Ali Khan</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>CNIC</label>
+                            <p id="detailCNIC">35202-1111111-1</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Phone Number</label>
+                            <p id="detailPhone">03001234567</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Email</label>
+                            <p id="detailEmail">ali@fast.edu.pk</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Specific Details -->
+                <div class="detail-section" id="studentDetails">
+                    <h3><i class="fas fa-graduation-cap"></i> Student Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Roll Number</label>
+                            <p id="studentRoll">21F-1234</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Batch</label>
+                            <p id="studentBatch">BSCS</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Semester</label>
+                            <p id="studentSemester">7</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Section</label>
+                            <p id="studentSection">A</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Admission Year</label>
+                            <p id="studentAdmission">2021</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Faculty Specific Details -->
+                <div class="detail-section" id="facultyDetails" style="display: none;">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Faculty Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Designation</label>
+                            <p id="facultyDesignation">Assistant Professor</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Qualification</label>
+                            <p id="facultyQualification">PhD CS</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Joining Date</label>
+                            <p id="facultyJoining">2018-01-01</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voting History Summary -->
+                <div class="detail-section">
+                    <h3><i class="fas fa-history"></i> Voting History</h3>
+                    <div class="voting-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>Total Votes Cast: <strong>5</strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>This Year: <strong>3</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="profile-actions">
+                    <button class="btn-primary" onclick="showPopup('Edit profile feature coming soon', 'info')">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                    <button class="btn-secondary" onclick="showPopup('Password change feature coming soon', 'info')">
+                        <i class="fas fa-key"></i> Change Password
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+    <script>
+        // In a real app, we would fetch user data from an API
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfileData();
+        });
+
+        function loadProfileData() {
+            // Sample user data - in real app, this would come from an API
+            const userData = {
+                name: "Ali Khan",
+                role: "student",
+                campus: "FAST Islamabad",
+                email: "ali@fast.edu.pk",
+                cnic: "35202-1111111-1",
+                phone: "03001234567",
+                studentInfo: {
+                    rollNumber: "21F-1234",
+                    batch: "BSCS",
+                    semester: 7,
+                    section: "A",
+                    admissionYear: 2021
+                },
+                facultyInfo: null
+            };
+
+            // Set basic info
+            document.getElementById('profileName').textContent = userData.name;
+            document.getElementById('profileRole').textContent = userData.role.charAt(0).toUpperCase() + userData.role.slice(1);
+            document.getElementById('profileCampus').textContent = userData.campus;
+            document.getElementById('profileEmail').textContent = userData.email;
+
+            // Set personal details
+            document.getElementById('detailName').textContent = userData.name;
+            document.getElementById('detailCNIC').textContent = userData.cnic;
+            document.getElementById('detailPhone').textContent = userData.phone;
+            document.getElementById('detailEmail').textContent = userData.email;
+
+            // Show role-specific details
+            if (userData.role === 'student') {
+                document.getElementById('studentDetails').style.display = 'block';
+                document.getElementById('studentRoll').textContent = userData.studentInfo.rollNumber;
+                document.getElementById('studentBatch').textContent = userData.studentInfo.batch;
+                document.getElementById('studentSemester').textContent = userData.studentInfo.semester;
+                document.getElementById('studentSection').textContent = userData.studentInfo.section;
+                document.getElementById('studentAdmission').textContent = userData.studentInfo.admissionYear;
+            } else if (userData.role === 'faculty') {
+                document.getElementById('facultyDetails').style.display = 'block';
+                // Set faculty details here
+            }
+        }
+    </script>
+</body>
+</html>

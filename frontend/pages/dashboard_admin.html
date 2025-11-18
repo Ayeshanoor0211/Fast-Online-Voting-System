@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-cogs"></i> Admin Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, <strong>Admin User</strong></span>
+                <span class="access-level">SuperAdmin Access</span>
+            </div>
+        </div>
+
+        <!-- Admin Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>Total Users</h3>
+                <p>1,247</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-vote-yea"></i>
+                <h3>Active Elections</h3>
+                <p>3</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-chart-bar"></i>
+                <h3>Total Votes</h3>
+                <p>892</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Pending Actions</h3>
+                <p>5</p>
+            </div>
+        </div>
+
+        <!-- Admin Quick Actions -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+            <div class="quick-actions-grid">
+                <div class="action-card" onclick="location.href='elections.html?manage=true'">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Create Election</h3>
+                    <p>Setup new election</p>
+                </div>
+                <div class="action-card" onclick="location.href='#'">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>Manage Users</h3>
+                    <p>Add/remove users</p>
+                </div>
+                <div class="action-card" onclick="location.href='results.html'">
+                    <i class="fas fa-chart-pie"></i>
+                    <h3>View All Results</h3>
+                    <p>Election analytics</p>
+                </div>
+                <div class="action-card" onclick="location.href='#'">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Audit Logs</h3>
+                    <p>System activities</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Election Management -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-tasks"></i> Election Management</h2>
+            <div class="admin-controls">
+                <button class="btn-primary" onclick="location.href='elections.html?manage=true'">
+                    <i class="fas fa-plus"></i> Create New Election
+                </button>
+                <button class="btn-secondary" onclick="showPopup('Feature coming soon', 'info')">
+                    <i class="fas fa-edit"></i> Edit Elections
+                </button>
+                <button class="btn-secondary" onclick="showPopup('Feature coming soon', 'info')">
+                    <i class="fas fa-user-check"></i> Verify Voters
+                </button>
+            </div>
+
+            <div class="election-grid">
+                <div class="election-card">
+                    <h3>Student Union President 2024</h3>
+                    <span class="election-status status-active">Active</span>
+                    <div class="election-stats">
+                        <p><strong>Voter Turnout:</strong> 65%</p>
+                        <p><strong>Total Votes:</strong> 324</p>
+                        <p><strong>Registered Voters:</strong> 500</p>
+                    </div>
+                    <div class="election-actions">
+                        <button class="btn-primary" onclick="location.href='results.html?election=1'">
+                            <i class="fas fa-chart-bar"></i> Live Results
+                        </button>
+                        <button class="btn-secondary" onclick="showPopup('Election management panel opening', 'info')">
+                            <i class="fas fa-cog"></i> Manage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+            <div class="activity-feed">
+                <div class="activity-item">
+                    <i class="fas fa-vote-yea success"></i>
+                    <div class="activity-content">
+                        <p><strong>Ali Khan</strong> voted in Student Union Election</p>
+                        <small>2 minutes ago</small>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-user-plus info"></i>
+                    <div class="activity-content">
+                        <p>New candidate <strong>Usman Tariq</strong> registered</p>
+                        <small>1 hour ago</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<div class="election-card" data-election-id="{{election_id}}">
+    <h3>{{election_title}}</h3>
+    <span class="election-status status-{{status}}">{{status}}</span>
+    <p>{{description}}</p>
+    <div class="election-meta">
+        <p><i class="fas fa-calendar"></i> Starts: {{start_date}}</p>
+        <p><i class="fas fa-clock"></i> Ends: {{end_date}}</p>
+        <p><i class="fas fa-users"></i> Candidates: {{candidate_count}}</p>
+    </div>
+    <div class="election-actions">
+        {{#if can_vote}}
+        <button class="btn-primary vote-btn" data-election-id="{{election_id}}">Vote Now</button>
+        {{/if}}
+        {{#if can_view}}
+        <button class="btn-secondary view-candidates-btn" data-election-id="{{election_id}}">View Candidates</button>
+        {{/if}}
+    </div>
+</div>

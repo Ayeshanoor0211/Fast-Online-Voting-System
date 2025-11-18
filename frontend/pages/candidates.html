@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidates - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-users"></i> Election Candidates</h1>
+            <p>Get to know the candidates and their manifestos</p>
+        </div>
+
+        <!-- Back to Elections -->
+        <div style="margin-bottom: 2rem;">
+            <button class="btn-secondary" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back to Elections
+            </button>
+        </div>
+
+        <!-- Election Info -->
+        <div class="election-info-card">
+            <h2 id="electionTitle">Student Union President 2024</h2>
+            <p id="electionDescription">Election for the Student Union President. Vote for your candidate!</p>
+            <div class="election-meta">
+                <span class="election-status status-active" id="electionStatus">Active</span>
+                <span id="electionDates">Nov 10, 2024 - Nov 15, 2024</span>
+            </div>
+        </div>
+
+        <!-- Candidates List -->
+        <div class="candidates-grid" id="candidatesContainer">
+            <!-- Candidate cards will be loaded here -->
+        </div>
+
+        <!-- If no candidates -->
+        <div id="noCandidates" style="display: none; text-align: center; padding: 2rem;">
+            <i class="fas fa-user-slash" style="font-size: 3rem; color: #6c757d; margin-bottom: 1rem;"></i>
+            <h3>No Candidates Yet</h3>
+            <p>No candidates have registered for this election yet.</p>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Sample candidate data - in real app, this would come from an API
+        const candidates = [
+            {
+                id: 1,
+                name: "Ali Khan",
+                email: "ali@fast.edu.pk",
+                position: "Student Union President",
+                symbol: "Laptop",
+                manifesto: "Better labs and facilities, more extracurricular activities, and improved campus WiFi.",
+                image: "../assets/candidate1.jpg",
+                electionId: 1
+            },
+            {
+                id: 2,
+                name: "Sara Ahmed",
+                email: "sara@fast.edu.pk",
+                position: "Student Union President",
+                symbol: "Book",
+                manifesto: "More study resources, extended library hours, and academic support programs.",
+                image: "../assets/candidate2.jpg",
+                electionId: 1
+            },
+            {
+                id: 3,
+                name: "Usman Tariq",
+                email: "usman@fast.edu.pk",
+                position: "Student Union President",
+                symbol: "Star",
+                manifesto: "Focus on campus events, student clubs, and international exposure.",
+                image: "../assets/candidate3.jpg",
+                electionId: 1
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const electionId = getElectionIdFromURL();
+            loadElectionInfo(electionId);
+            loadCandidates(electionId);
+        });
+
+        function loadElectionInfo(electionId) {
+            // In a real app, we would fetch election details from an API
+            const election = {
+                title: "Student Union President 2024",
+                description: "Election for the Student Union President. Vote for your candidate!",
+                status: "active",
+                startDate: "2024-11-10",
+                endDate: "2024-11-15"
+            };
+
+            document.getElementById('electionTitle').textContent = election.title;
+            document.getElementById('electionDescription').textContent = election.description;
+            document.getElementById('electionStatus').textContent = election.status;
+            document.getElementById('electionStatus').className = `election-status status-${election.status}`;
+            document.getElementById('electionDates').textContent = `${formatDate(election.startDate)} - ${formatDate(election.endDate)}`;
+        }
+
+        function loadCandidates(electionId) {
+            const container = document.getElementById('candidatesContainer');
+            const noCandidates = document.getElementById('noCandidates');
+            container.innerHTML = '';
+
+            const electionCandidates = candidates.filter(candidate => candidate.electionId == electionId);
+
+            if (electionCandidates.length === 0) {
+                noCandidates.style.display = 'block';
+                return;
+            }
+
+            noCandidates.style.display = 'none';
+
+            electionCandidates.forEach(candidate => {
+                const candidateCard = createCandidateCard(candidate);
+                container.appendChild(candidateCard);
+            });
+        }
+
+        function createCandidateCard(candidate) {
+            const card = document.createElement('div');
+            card.className = 'candidate-card';
+
+            card.innerHTML = `
+                <div class="candidate-image">
+                    <img src="${candidate.image}" alt="${candidate.name}" onerror="this.src='../assets/default-avatar.jpg'">
+                </div>
+                <div class="candidate-info">
+                    <h3>${candidate.name}</h3>
+                    <p class="candidate-email">${candidate.email}</p>
+                    <div class="candidate-symbol">
+                        <strong>Symbol:</strong> ${candidate.symbol}
+                    </div>
+                    <div class="candidate-manifesto">
+                        <h4>Manifesto</h4>
+                        <p>${candidate.manifesto}</p>
+                    </div>
+                </div>
+                <div class="candidate-actions">
+                    <button class="btn-primary vote-candidate-btn" data-candidate-id="${candidate.id}">
+                        <i class="fas fa-vote-yea"></i> Vote for ${candidate.name}
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Handle voting for candidate
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('vote-candidate-btn')) {
+                const candidateId = e.target.getAttribute('data-candidate-id');
+                voteForCandidate(candidateId);
+            }
+        });
+
+        function voteForCandidate(candidateId) {
+            // In a real app, this would send a vote to the server
+            showPopup(`Vote recorded for candidate ${candidateId}`, 'success');
+            // Redirect back to elections page after a delay
+            setTimeout(() => {
+                window.location.href = 'elections.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

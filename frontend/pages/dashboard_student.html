@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-user-graduate"></i> Student Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, <strong id="studentName">Ali Khan</strong></span>
+                <button class="btn-secondary" onclick="location.href='profile.html'">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-vote-yea"></i>
+                <h3>Active Elections</h3>
+                <p id="activeElections">2</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Voted</h3>
+                <p id="votedCount">1</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Pending</h3>
+                <p id="pendingElections">1</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-calendar"></i>
+                <h3>Upcoming</h3>
+                <p id="upcomingElections">3</p>
+            </div>
+        </div>
+
+        <!-- Active Elections Section -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-rocket"></i> Active Elections</h2>
+            <div class="election-grid" id="activeElectionsGrid">
+                <!-- Election cards will be loaded here -->
+                <div class="election-card" data-election-id="1">
+                    <h3>Student Union President 2024</h3>
+                    <span class="election-status status-active">Active</span>
+                    <p>Election for the Student Union President. Vote for your candidate!</p>
+                    <div class="election-meta">
+                        <p><i class="fas fa-calendar"></i> Ends: Nov 15, 2024</p>
+                        <p><i class="fas fa-clock"></i> Time Left: <span id="countdown-1">2d 5h 30m</span></p>
+                        <p><i class="fas fa-users"></i> Candidates: 4</p>
+                    </div>
+                    <div class="election-actions">
+                        <button class="btn-primary vote-btn" data-election-id="1">Vote Now</button>
+                        <button class="btn-secondary view-candidates-btn" data-election-id="1">View Candidates</button>
+                    </div>
+                </div>
+
+                <div class="election-card" data-election-id="2">
+                    <h3>Class Representative Election</h3>
+                    <span class="election-status status-active">Active</span>
+                    <p>Elect your class representative for the current semester</p>
+                    <div class="election-meta">
+                        <p><i class="fas fa-calendar"></i> Ends: Nov 20, 2024</p>
+                        <p><i class="fas fa-clock"></i> Time Left: <span id="countdown-2">7d 5h 30m</span></p>
+                        <p><i class="fas fa-users"></i> Candidates: 3</p>
+                    </div>
+                    <div class="election-actions">
+                        <button class="btn-primary vote-btn" data-election-id="2">Vote Now</button>
+                        <button class="btn-secondary view-candidates-btn" data-election-id="2">View Candidates</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Elections -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-calendar-plus"></i> Upcoming Elections</h2>
+            <div class="election-grid" id="upcomingElectionsGrid">
+                <div class="election-card">
+                    <h3>Sports Captain Election</h3>
+                    <span class="election-status status-upcoming">Upcoming</span>
+                    <p>Election for Sports Captain 2024-25</p>
+                    <div class="election-meta">
+                        <p><i class="fas fa-calendar"></i> Starts: Dec 1, 2024</p>
+                        <p><i class="fas fa-users"></i> Candidates: 0</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voting History -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-history"></i> Voting History</h2>
+            <div class="voting-history">
+                <div class="history-item">
+                    <div class="history-info">
+                        <h4>Club Coordinator Election</h4>
+                        <p>You voted for <strong>Sarah Ahmed</strong></p>
+                        <small>Voted on: Oct 15, 2024</small>
+                    </div>
+                    <span class="status-ended">Completed</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../script.js"></script>
+    <script>
+        // Start countdown timers for active elections
+        document.addEventListener('DOMContentLoaded', function() {
+            startElectionCountdown('2024-11-15', 'countdown-1');
+            startElectionCountdown('2024-11-20', 'countdown-2');
+        });
+    </script>
+</body>
+</html>
