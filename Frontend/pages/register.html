@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FAST University Voting System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/login-register.css">
+    <style>
+        .status-message {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        .status-loading {
+            color: #888;
+        }
+        .status-error {
+            color: #e53e3e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="login-sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-vote-yea"></i>
+                    <span>FAST Voting</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+            </nav>
+            <div class="sidebar-footer">
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="login-main">
+        <div class="login-container" style="max-width: 600px;">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <div class="logo-circle">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h1>Create Account</h1>
+                        <p>Join the Online Voting System</p>
+                    </div>
+                </div>
+
+                <form id="register-form" class="login-form">
+                    <!-- General Information -->
+                     <div class="form-group">
+                        <input type="text" id="name" name="name" class="form-input" required placeholder="Full Name">
+                    </div>
+                     <div class="form-group">
+                        <input type="email" id="email" name="email" class="form-input" required placeholder="Email Address">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="password" name="password" class="form-input" required placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="cnic" name="cnic" class="form-input" required pattern="\d{5}-\d{7}-\d{1}" placeholder="CNIC (e.g., 12345-1234567-1)">
+                    </div>
+                     <div class="form-group">
+                        <input type="tel" id="phoneNumber" name="phoneNumber" class="form-input" placeholder="Phone Number">
+                    </div>
+
+                    <!-- Campus and Department -->
+                    <div class="form-group">
+                        <select id="campusId" name="campusId" class="form-input" required>
+                            <option value="">Select Campus</option>
+                        </select>
+                        <small id="campusStatus" class="status-message"></small>
+                    </div>
+                    <div class="form-group">
+                        <select id="departmentId" name="departmentId" class="form-input" disabled>
+                            <option value="">Select Department</option>
+                        </select>
+                        <small id="departmentStatus" class="status-message"></small>
+                    </div>
+
+                    <!-- Role Selection -->
+                    <div class="form-group">
+                        <select id="role" name="role" class="form-input" required>
+                            <option value="">Select Role</option>
+                            <option value="Student">Student</option>
+                            <option value="Faculty">Faculty</option>
+                            <option value="Management">Management</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+
+                    <!-- Role-Specific Fields -->
+                    <div id="student-details" class="role-specific-fields" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" id="rollNumber" name="rollNumber" class="form-input" placeholder="Roll Number">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="batch" name="batch" class="form-input" placeholder="Batch (e.g., 2021)">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="semester" name="semester" class="form-input" placeholder="Semester">
+                        </div>
+                         <div class="form-group">
+                            <input type="text" id="section" name="section" class="form-input" placeholder="Section">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="admissionYear" name="admissionYear" class="form-input" placeholder="Admission Year">
+                        </div>
+                    </div>
+
+                    <div id="faculty-details" class="role-specific-fields" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" id="designation" name="designation" class="form-input" placeholder="Designation">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="qualification" name="qualification" class="form-input" placeholder="Qualification">
+                        </div>
+                        <div class="form-group">
+                            <input type="date" id="joiningDate" name="joiningDate" class="form-input" placeholder="Joining Date">
+                        </div>
+                    </div>
+
+                    <div id="management-details" class="role-specific-fields" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" id="position" name="position" class="form-input" placeholder="Position">
+                        </div>
+                         <div class="form-group">
+                            <textarea id="responsibility" name="responsibility" rows="3" class="form-input" placeholder="Responsibility"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="admin-details" class="role-specific-fields" style="display: none;">
+                        <div class="form-group">
+                            <input type="text" id="accessLevel" name="accessLevel" class="form-input" placeholder="Access Level">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-button">Register</button>
+                    
+                    <div class="signup-section">
+                         <p class="signup-text">Already have an account? <a href="login.html" class="signup-link">Sign In</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../js/register.js"></script>
+    <script>
+        function showNotification(message, type = 'info') {
+            alert(message);
+        }
+    </script>
+</body>
+</html>

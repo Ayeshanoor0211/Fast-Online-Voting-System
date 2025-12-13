@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - FAST Voting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2E8B57;
+            --accent: #007bff;
+            --background: #f8fafc;
+            --text: #333333;
+            --light-gray: #e2e8f0;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, #1a365d, #2d3748);
+            --gradient-secondary: linear-gradient(135deg, #2E8B57, #3cb371);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+            opacity: 0;
+            animation: slideInLeft 0.8s ease-out 0.2s forwards;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dashboard-header h1 i {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: iconPulse 2s infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 1px solid var(--light-gray);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--gradient-secondary);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .profile-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Profile Summary Styles */
+        .profile-summary {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
+        }
+
+        .profile-summary:hover::before {
+            transform: scaleX(1);
+        }
+
+        .profile-summary:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .profile-image {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .profile-image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--light-gray);
+            transition: all 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .profile-summary:hover .profile-image img {
+            border-color: var(--secondary);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .profile-image .btn-secondary {
+            margin-top: 15px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .profile-info h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--gradient-secondary);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .profile-summary:hover .profile-info h2::after {
+            width: 100px;
+        }
+
+        .profile-info p {
+            margin: 8px 0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .profile-summary:hover .profile-info p {
+            color: var(--primary);
+        }
+
+        /* Profile Details Styles */
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .detail-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardAppear 0.6s ease-out forwards;
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .detail-section:nth-child(1) { animation-delay: 0.5s; }
+        .detail-section:nth-child(2) { animation-delay: 0.6s; }
+        .detail-section:nth-child(3) { animation-delay: 0.7s; }
+        .detail-section:nth-child(4) { animation-delay: 0.8s; }
+        .detail-section:nth-child(5) { animation-delay: 0.9s; }
+
+        .detail-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .detail-section h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .detail-section h3 i {
+            color: var(--secondary);
+            transition: transform 0.5s ease;
+        }
+
+        .detail-section:hover h3 i {
+            transform: rotate(15deg);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-item {
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--background);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .detail-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--gradient-secondary);
+            transition: height 0.4s ease;
+        }
+
+        .detail-item:hover::before {
+            height: 100%;
+        }
+
+        .detail-item:hover {
+            transform: translateX(5px);
+            background: #f0f7ff;
+        }
+
+        .detail-item label {
+            display: block;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .detail-item p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* Voting Stats Styles */
+        .voting-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: var(--background);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            background: #f0f7ff;
+        }
+
+        .stat-item i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            transition: transform 0.5s ease;
+        }
+
+        .stat-item:hover i {
+            transform: scale(1.2);
+        }
+
+        .stat-item span {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .stat-item strong {
+            color: var(--primary);
+        }
+
+        /* Profile Actions Styles */
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .profile-actions .btn {
+            flex: 1;
+            min-width: 200px;
+            justify-content: center;
+            padding: 12px 20px;
+            font-size: 1rem;
+        }
+
+        /* Role Badge */
+        .role-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--gradient-secondary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 10px;
+            animation: badgePulse 3s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Floating Animation for Profile Image */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .profile-image img {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-summary {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .voting-stats {
+                flex-direction: column;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .toast.info {
+            border-left-color: var(--accent);
+        }
+
+        .toast.info i {
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-user"></i> My Profile</h1>
+            <button class="btn-secondary" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+
+        <div class="profile-container">
+            <!-- Profile Summary -->
+            <div class="profile-summary">
+                <div class="profile-image">
+                    <img src="../assets/default-avatar.jpg" alt="Profile Picture">
+                    <button class="btn-secondary" onclick="showToast('Profile picture update coming soon', 'info')">
+                        <i class="fas fa-camera"></i> Change Photo
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <h2 id="profileName">Ali Khan <span class="role-badge" id="roleBadge">Student</span></h2>
+                    <p><i class="fas fa-map-marker-alt"></i> <span id="profileCampus">FAST Islamabad</span></p>
+                    <p><i class="fas fa-envelope"></i> <span id="profileEmail">ali@fast.edu.pk</span></p>
+                    <p><i class="fas fa-phone"></i> <span id="profilePhone">03001234567</span></p>
+                </div>
+            </div>
+
+            <!-- Profile Details -->
+            <div class="profile-details">
+                <div class="detail-section">
+                    <h3><i class="fas fa-id-card"></i> Personal Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Full Name</label>
+                            <p id="detailName">Ali Khan</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>CNIC</label>
+                            <p id="detailCNIC">35202-1111111-1</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Phone Number</label>
+                            <p id="detailPhone">03001234567</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Email</label>
+                            <p id="detailEmail">ali@fast.edu.pk</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Specific Details -->
+                <div class="detail-section" id="studentDetails">
+                    <h3><i class="fas fa-graduation-cap"></i> Student Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Roll Number</label>
+                            <p id="studentRoll">21F-1234</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Batch</label>
+                            <p id="studentBatch">BSCS</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Semester</label>
+                            <p id="studentSemester">7</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Section</label>
+                            <p id="studentSection">A</p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Admission Year</label>
+                            <p id="studentAdmission">2021</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Faculty Specific Details -->
+                <div class="detail-section" id="facultyDetails" style="display: none;">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Faculty Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Designation</label>
+                            <p id="facultyDesignation"></p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Qualification</label>
+                            <p id="facultyQualification"></p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Joining Date</label>
+                            <p id="facultyJoining"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Management Specific Details -->
+                <div class="detail-section" id="managementDetails" style="display: none;">
+                    <h3><i class="fas fa-user-tie"></i> Management Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Position</label>
+                            <p id="managementPosition"></p>
+                        </div>
+                        <div class="detail-item">
+                            <label>Responsibility</label>
+                            <p id="managementResponsibility"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Specific Details -->
+                <div class="detail-section" id="adminDetails" style="display: none;">
+                    <h3><i class="fas fa-user-shield"></i> Admin Information</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <label>Access Level</label>
+                            <p id="adminAccessLevel"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voting History Summary -->
+                <div class="detail-section">
+                    <h3><i class="fas fa-history"></i> Voting History</h3>
+                    <div class="voting-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>Total Votes Cast: <strong><span id="totalVotesCast">0</span></strong></span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Elections Participated: <strong><span id="electionsParticipated">0</span></strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="detail-section">
+                    <h3><i class="fas fa-cog"></i> Account Actions</h3>
+                    <div class="profile-actions">
+                        <button class="btn-primary" onclick="showToast('Edit profile feature coming soon', 'info')">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="btn-secondary" onclick="showToast('Password change feature coming soon', 'info')">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                        <button class="btn-secondary" onclick="showToast('Export feature coming soon', 'info')">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-info-circle"></i>
+        <span id="toastMessage">This is a notification</span>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FAST Voting</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        .stat-card {
+            transition: transform 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        .winner-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .section-content {
+            display: none;
+        }
+        .section-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-dark text-white p-3" style="min-width: 250px; min-height: 100vh;">
+            <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom">
+                <i class="bi bi-shield-check"></i> Admin Panel
+            </div>
+            <div class="list-group list-group-flush mt-3">
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('dashboard')">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('create-election')">
+                    <i class="bi bi-plus-circle"></i> Create Election
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('manage-elections')">
+                    <i class="bi bi-gear"></i> Manage Elections
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('manage-voters')">
+                    <i class="bi bi-people"></i> Manage Voters
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('candidate-applications')">
+                    <i class="bi bi-person-badge"></i> Candidate Applications
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('results')">
+                    <i class="bi bi-graph-up"></i> View Results
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-dark text-white" onclick="showSection('audit-logs')">
+                    <i class="bi bi-journal-text"></i> Audit Logs
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-danger text-white mt-4" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid p-4" style="background-color: #f8f9fa;">
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="section-content active">
+                <h2 class="mb-4"><i class="bi bi-speedometer2"></i> Dashboard Overview</h2>
+
+                <!-- Stats Cards -->
+                <div class="row mb-4" id="stats-cards">
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card bg-primary text-white">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Total Elections</h6>
+                                <h2 class="card-title" id="stat-elections">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card bg-success text-white">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Total Users</h6>
+                                <h2 class="card-title" id="stat-users">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card bg-warning text-white">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Total Votes</h6>
+                                <h2 class="card-title" id="stat-votes">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stat-card bg-info text-white">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Total Candidates</h6>
+                                <h2 class="card-title" id="stat-candidates">0</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Elections -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="bi bi-calendar-event"></i> Active Elections</h5>
+                    </div>
+                    <div class="card-body" id="active-elections-container">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Pending Registrations -->
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0"><i class="bi bi-clock-history"></i> Pending Voter Registrations</h5>
+                    </div>
+                    <div class="card-body" id="pending-registrations-container">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Election Section -->
+            <div id="create-election-section" class="section-content">
+                <h2 class="mb-4"><i class="bi bi-plus-circle"></i> Create New Election</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <form id="createElectionForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="title" class="form-label">Election Title *</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="campusId" class="form-label">Campus *</label>
+                                    <select class="form-select" id="campusSelect" name="campusId" required>
+                                        <option value="">Select Campus</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="positionId" class="form-label">Position *</label>
+                                    <select class="form-select" name="positionId" required>
+                                        <option value="">Select Position</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="eligibleVoters" class="form-label">Eligible Voters *</label>
+                                    <select class="form-select" name="eligibleVoters" required>
+                                        <option value="">Select Voter Type</option>
+                                        <option value="All">All (Student, Faculty, Management)</option>
+                                        <option value="Student">Students Only</option>
+                                        <option value="Faculty">Faculty Only</option>
+                                        <option value="Management">Management Only</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" name="description">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="startDate" class="form-label">Start Date *</label>
+                                    <input type="datetime-local" class="form-control" name="startDate" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="endDate" class="form-label">End Date *</label>
+                                    <input type="datetime-local" class="form-control" name="endDate" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Create Election
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Elections Section -->
+            <div id="manage-elections-section" class="section-content">
+                <h2 class="mb-4"><i class="bi bi-gear"></i> Manage Elections</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Campus</th>
+                                        <th>Position</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Status</th>
+                                        <th>Candidates</th>
+                                        <th>Votes</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="elections-table-body">
+                                    <tr><td colspan="9" class="text-center">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Voters Section -->
+            <div id="manage-voters-section" class="section-content">
+                <h2 class="mb-4"><i class="bi bi-people"></i> Manage Voter Registrations</h2>
+                <div class="card">
+                    <div class="card-body" id="manage-voters-container">
+                        <p class="text-muted">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Candidate Applications Section -->
+            <div id="candidate-applications-section" class="section-content">
+                <h2 class="mb-4"><i class="bi bi-person-badge"></i> Review Candidate Applications</h2>
+
+                <!-- Filter Options -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="applicationStatusFilter" class="form-label">Filter by Status</label>
+                                <select class="form-select" id="applicationStatusFilter" onchange="loadCandidateApplications()">
+                                    <option value="">All Applications</option>
+                                    <option value="Pending" selected>Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="applicationElectionFilter" class="form-label">Filter by Election</label>
+                                <select class="form-select" id="applicationElectionFilter" onchange="loadCandidateApplications()">
+                                    <option value="">All Elections</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" onclick="loadCandidateApplications()">
+                                    <i class="bi bi-arrow-clockwise"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applications Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Applicant</th>
+                                        <th>Election</th>
+                                        <th>Symbol</th>
+                                        <th>Applied On</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="applications-table-body">
+                                    <tr><td colspan="6" class="text-center">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="section-content">
+                <h2 class="mb-4"><i class="bi bi-graph-up"></i> Election Results</h2>
+                <div class="mb-3">
+                    <label for="resultsElectionSelect" class="form-label">Select Election</label>
+                    <select class="form-select" id="resultsElectionSelect" onchange="loadElectionResults(this.value)">
+                        <option value="">Choose an election...</option>
+                    </select>
+                </div>
+                <div id="results-container">
+                    <p class="text-muted">Select an election to view results</p>
+                </div>
+            </div>
+
+            <!-- Audit Logs Section -->
+            <div id="audit-logs-section" class="section-content">
+                <h2 class="mb-4"><i class="bi bi-journal-text"></i> Audit Logs</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>User</th>
+                                        <th>Action</th>
+                                        <th>Details</th>
+                                        <th>IP Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="audit-logs-body">
+                                    <tr><td colspan="5" class="text-center">Loading...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Add Candidate Modal -->
+    <div class="modal fade" id="addCandidateModal" tabindex="-1" aria-labelledby="addCandidateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCandidateModalLabel">Add Candidate</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCandidateForm">
+                        <input type="hidden" id="electionId" name="electionId">
+                        <div class="mb-3">
+                            <label for="userId" class="form-label">Select User</label>
+                            <select id="userSelect" name="userId" class="form-select" required>
+                                <!-- Users will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="symbol" class="form-label">Symbol</label>
+                            <input type="text" id="symbol" name="symbol" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="manifesto" class="form-label">Manifesto</label>
+                            <textarea id="manifesto" name="manifesto" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Candidate</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/dashboard_admin.js"></script>
+</body>
+</html>
