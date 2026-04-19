@@ -1,0 +1,324 @@
+{
+  "name": "projet",
+  "type": "directory",
+  "children": [
+    {
+      "name": "Backend",
+      "type": "directory",
+      "children": [
+        {
+          "name": "config",
+          "type": "directory",
+          "children": [
+            {
+              "name": "constants.js",
+              "type": "file"
+            },
+            {
+              "name": "dbConfig.js",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "controllers",
+          "type": "directory",
+          "children": [
+            {
+              "name": "adminController.js",
+              "type": "file"
+            },
+            {
+              "name": "authController.js",
+              "type": "file"
+            },
+            {
+              "name": "electionController.js",
+              "type": "file"
+            },
+            {
+              "name": "userController.js",
+              "type": "file"
+            },
+            {
+              "name": "voteController.js",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "middleware",
+          "type": "directory",
+          "children": [
+            {
+              "name": "authMiddleware.js",
+              "type": "file"
+            },
+            {
+              "name": "validationMiddleware.js",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "package-lock.json",
+          "type": "file"
+        },
+        {
+          "name": "package.json",
+          "type": "file"
+        },
+        {
+          "name": "routes",
+          "type": "directory",
+          "children": [
+            {
+              "name": "admin.js",
+              "type": "file"
+            },
+            {
+              "name": "auth.js",
+              "type": "file"
+            },
+            {
+              "name": "elections.js",
+              "type": "file"
+            },
+            {
+              "name": "users.js",
+              "type": "file"
+            },
+            {
+              "name": "votes.js",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "scripts",
+          "type": "directory",
+          "children": [
+            {
+              "name": "insert_campuses.sql",
+              "type": "file"
+            },
+            {
+              "name": "populate_db.js",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "server.js",
+          "type": "file"
+        },
+        {
+          "name": "utils",
+          "type": "directory",
+          "children": [
+            {
+              "name": "helpers.js",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dir.py",
+      "type": "file"
+    },
+    {
+      "name": "frontend",
+      "type": "directory",
+      "children": [
+        {
+          "name": "assets",
+          "type": "directory",
+          "children": [
+            {
+              "name": "banner.jpg",
+              "type": "file"
+            },
+            {
+              "name": "candidate1.jpg",
+              "type": "file"
+            },
+            {
+              "name": "candidate2.jpg",
+              "type": "file"
+            },
+            {
+              "name": "candidate3.jpg",
+              "type": "file"
+            },
+            {
+              "name": "default-avatar.jpg",
+              "type": "file"
+            },
+            {
+              "name": "logo.png",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "components",
+          "type": "directory",
+          "children": [
+            {
+              "name": "election_card.html",
+              "type": "file"
+            },
+            {
+              "name": "footer.html",
+              "type": "file"
+            },
+            {
+              "name": "header-login.html",
+              "type": "file"
+            },
+            {
+              "name": "header.html",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "css",
+          "type": "directory",
+          "children": [
+            {
+              "name": "dashboard.css",
+              "type": "file"
+            },
+            {
+              "name": "login-register.css",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "index.html",
+          "type": "file"
+        },
+        {
+          "name": "js",
+          "type": "directory",
+          "children": [
+            {
+              "name": "candidates.js",
+              "type": "file"
+            },
+            {
+              "name": "common.js",
+              "type": "file"
+            },
+            {
+              "name": "dashboard.js",
+              "type": "file"
+            },
+            {
+              "name": "dashboard_admin.js",
+              "type": "file"
+            },
+            {
+              "name": "dashboard_faculty.js",
+              "type": "file"
+            },
+            {
+              "name": "dashboard_student.js",
+              "type": "file"
+            },
+            {
+              "name": "elections.js",
+              "type": "file"
+            },
+            {
+              "name": "index.js",
+              "type": "file"
+            },
+            {
+              "name": "login.js",
+              "type": "file"
+            },
+            {
+              "name": "profile.js",
+              "type": "file"
+            },
+            {
+              "name": "register.js",
+              "type": "file"
+            },
+            {
+              "name": "results.js",
+              "type": "file"
+            },
+            {
+              "name": "vote.js",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "package-lock.json",
+          "type": "file"
+        },
+        {
+          "name": "pages",
+          "type": "directory",
+          "children": [
+            {
+              "name": "candidates.html",
+              "type": "file"
+            },
+            {
+              "name": "dashboard_admin.html",
+              "type": "file"
+            },
+            {
+              "name": "dashboard_faculty.html",
+              "type": "file"
+            },
+            {
+              "name": "dashboard_student.html",
+              "type": "file"
+            },
+            {
+              "name": "elections.html",
+              "type": "file"
+            },
+            {
+              "name": "login.html",
+              "type": "file"
+            },
+            {
+              "name": "profile.html",
+              "type": "file"
+            },
+            {
+              "name": "register.html",
+              "type": "file"
+            },
+            {
+              "name": "results.html",
+              "type": "file"
+            },
+            {
+              "name": "vote.html",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "style.css",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "parent_dir_structure.json",
+      "type": "file"
+    }
+  ]
+}
