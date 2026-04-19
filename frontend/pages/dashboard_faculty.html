@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - FAST Voting</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-chalkboard-teacher"></i> Faculty Dashboard</h1>
+            <div class="user-info">
+                <span>Welcome, <strong id="facultyName">Prof. Salman</strong></span>
+                <button class="btn-secondary" onclick="location.href='profile.html'">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-vote-yea"></i>
+                <h3>Active Elections</h3>
+                <p id="activeElections">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Voted</h3>
+                <p id="votedCount">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-clock"></i>
+                <h3>Pending</h3>
+                <p id="pendingElections">0</p>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-calendar"></i>
+                <h3>Upcoming</h3>
+                <p id="upcomingElections">0</p>
+            </div>
+        </div>
+
+        <!-- Active Elections Section -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-rocket"></i> Active Elections</h2>
+            <div class="election-grid" id="activeElectionsGrid">
+                <!-- Election cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Upcoming Elections -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-calendar-plus"></i> Upcoming Elections</h2>
+            <div class="election-grid" id="upcomingElectionsGrid">
+                <!-- Election cards will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Voting History -->
+        <section class="dashboard-section">
+            <h2><i class="fas fa-history"></i> Voting History</h2>
+            <div class="voting-history">
+                <!-- Voting history items will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/dashboard_faculty.js"></script>
+</body>
+</html>
